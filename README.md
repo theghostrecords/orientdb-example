@@ -17,6 +17,7 @@ and the new edge is "corrupt".
   * GET /customer?id={id}
   * PUT /customer?id={id}
     * This endpoints adds an HasStayed edge from the Customer to the Hotel
+    * It does this by using the method: OrientVertex#addEdge
 
 # How to replicate the bug:
 * Open orientdb studio on http://localhost:2480 and login
