@@ -15,11 +15,16 @@ public class TransactionWrapper {
         return graph.getVertex(id);
     }
 
-    public void addEdge(OrientVertex v, OrientVertex hotel) {
-        v.addEdge("HasStayed", hotel);
+    public void addEdge(OrientVertex customer, OrientVertex hotel) {
+        customer.setProperty("fieldtest", "test");
+        customer.addEdge("HasStayed", hotel, "HasStayed");
+        customer.save();
     }
 
     public void commit() {
-        this.graph.commit();
+        if (!this.graph.isClosed()) {
+            this.graph.commit();
+            this.graph.shutdown();
+        }
     }
 }
