@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    networks:
+      - example-network
+    ports:
+      - "2480:2480"
+      - "2424:2424"
+    environment:
+      ORIENTDB_ROOT_PASSWORD: <fill me>
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    entrypoint: java -jar /usr/src/app/target/demo-1.jar
+    networks:
+      - example-network
+    ports:
+      - "8080:8080"
+      - "8001:8001"
+    depends_on:
+      - db
+    environment:
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,address=*:8001,server=y,suspend=n"
+
+networks:
+  example-network:

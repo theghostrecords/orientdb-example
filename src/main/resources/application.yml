@@ -1,0 +1,5 @@
+db:
+  url: "remote:db"
+  name: "demodb"
+  username: "root"
+  password: <fill me>
