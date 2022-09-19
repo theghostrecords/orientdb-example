@@ -10,8 +10,8 @@ If we remove the invocation of OrientVertex#setProperty and only add the edge, t
 When we set a property within the same transaction the change is written to the db and a corrupted edge is added to the EmbeddedList.
 
 ## How to use: 
-* Add the root password for the demodb to the database service in docker-compose.yml
-* Add the root password for the demodb to application.yml
+* Set a password for the demodb in docker-compose.yml
+* Add the same password to the application.yml
 * Run docker-compose up
   * This will build the necessary images and add the demo database
   * The services will then start
@@ -46,6 +46,10 @@ When we set a property within the same transaction the change is written to the 
 # How to make the db crash:
 * Open the java app in your favorite IDE
 * Remove the invocation of setProperty in TransactionWrapper#addEdge
-* Open a terminal and run: docker-compose build app 
+* Open a terminal and run: docker-compose build app
+* If you do this after reproducing the bug above, you need to cleanup the db:
+  * Delete the db container using: docker rm <id>
+  * Run: docker system prune
+  * Run: docker volume prune
 * Run: docker-compose up
 * Follow the steps mentioned above in 'How to reproduce the bug' and see that the db crashes when writing the transaction containing addEdge
