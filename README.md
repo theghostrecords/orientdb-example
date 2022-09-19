@@ -1,4 +1,4 @@
-# Project to demonstrate a bug in orientdb version 3.2.*
+# Project to demonstrate a bug in orientdb version 3.2.x
 
 # What is the bug:
 Using the vertex edit mode to in orientdb studio seems to break outwards facing linkbags. When pressing "Save" they are converted to LinkList. 
