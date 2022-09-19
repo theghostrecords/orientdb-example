@@ -6,7 +6,7 @@ Nex time a new edge is added to this vertex through the java api (Tinkerpop 2.6)
 and the new edge is "corrupted".
 
 An interesting observation: We add a property and an edge within the same transaciton. 
-If we remove the invocation of OrientVertex#setProperty and only add the edge, the database crashes (null edge in the ridbag). 
+If we remove the invocation of OrientVertex#setProperty and only add the edge, the database crashes (Found null entry in ridbag). 
 When we set a property within the same transaction the change is written to the db and a corrupted edge is added to the EmbeddedList.
 
 ## How to use: 
