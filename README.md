@@ -49,6 +49,7 @@ When we set a property within the same transaction the change is written to the 
 * Open a terminal and run: docker-compose build app
 * If you do this after reproducing the bug above, you need to cleanup the db:
   * Delete the db container using: docker rm <id>
+  * Delete the db image using: docker rmi <image>
   * Run: docker system prune
   * Run: docker volume prune
 * Run: docker-compose up
