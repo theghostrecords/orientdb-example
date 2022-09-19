@@ -1,10 +1,13 @@
 # Project to demonstrate a bug in orientdb version 3.2.*
 
 # What is the bug:
-Using the vertex edit mode to in orientdb studio seems to break outwards facing linkbags.
-When pressing "Save" they are converted to LinkList. 
+Using the vertex edit mode to in orientdb studio seems to break outwards facing linkbags. When pressing "Save" they are converted to LinkList. 
 Nex time a new edge is added to this vertex through the java api (Tinkerpop 2.6) the LinkList is converted to an EmbeddedList 
-and the new edge is "corrupt". 
+and the new edge is "corrupted".
+
+An interesting observation: We add a property and an edge within the same transaciton. 
+If we remove the invocation of OrientVertex#setProperty and only add the edge, the database crashes (null edge in the ridbag). 
+When we set a property within the same transaction the change is written to the db and a corrupted edge is added to the EmbeddedList.
 
 ## How to use: 
 * Add the root password for the demodb to the database service in docker-compose.yml
@@ -18,6 +21,7 @@ and the new edge is "corrupt".
   * PUT /customer?id={id}
     * This endpoints adds an HasStayed edge from the Customer to the Hotel
     * It does this by using the method: OrientVertex#addEdge
+    * It also sets a property on the Customer vertex within the same transaction (OrientVertex#setProperty)
 
 # How to reproduce the bug:
 * Open orientdb studio on http://localhost:2480 and login
@@ -38,3 +42,9 @@ and the new edge is "corrupt".
 * Open the customer in edit mode again by pressing the rid
   * Open out_HasStayed in the out edges
   * See that it now has a new "corrupted embedded edge" in a json format
+  
+# How to make the db crash:
+* Open the java app in your favorite IDE
+* Remove the invocation of setProperty in TransactionWrapper#addEdge
+* Open a terminal and run: docker-compose build app 
+* Follow the steps mentioned above in 'How to reproduce the bug' and see that the db crashes when writing the transaction containing addEdge
